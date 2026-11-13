@@ -135,4 +135,3 @@ This project is a personal/educational clone of [Stofinity Positive Affirmations
 
 - **Stofinity** — for the original artwork, affirmations, and design inspiration
 - **Averia Serif Libre** — the warm, humanist typeface (via Google Fonts)
-- **Web Audio API** — making zero-asset ambient sound possible
