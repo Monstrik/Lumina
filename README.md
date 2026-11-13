@@ -91,6 +91,28 @@ That's it. The script:
 
 ---
 
+## 🌐 GitHub Pages Deployment
+
+This project is configured for automatic deployment to GitHub Pages via GitHub Actions.
+
+### Enable GitHub Pages
+
+1. Go to **Settings → Pages** in your repository
+2. Under **Build and deployment**, select **GitHub Actions** as the source
+3. Push to `main` branch — the workflow will deploy automatically
+
+### Live URL
+
+Once deployed, your site will be available at:
+- **User/Organization site:** `https://<username>.github.io`
+- **Project site:** `https://<username>.github.io/positive-affirmations/`
+
+The workflow (`.github/workflows/deploy-pages.yml`) runs on every push to `main` and deploys the entire repository root as a static site.
+
+---
+
+## 📁 Project Structure
+
 ## 📁 Project Structure
 
 ```
