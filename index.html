@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+  <div id="app">
+    <!-- Smooth Dual-Layer Crossfade Containers -->
+    <div id="bg-layer-a" class="bg-layer visible"></div>
+    <div id="bg-layer-b" class="bg-layer"></div>
+
+    <!-- Active Timer Floating Pill Display -->
+    <div id="timer-status" class="timer-status hidden" aria-live="polite">
+      <span class="status-dot"></span>
+      <span id="timer-status-text">Auto-change in 05:00</span>
+      <div class="progress-bar-container">
+        <div id="timer-progress-bar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <!-- Interval Selection Popup Menu -->
+    <div id="timer-menu" class="timer-menu hidden">
+      <div class="timer-menu-header">Change Affirmation Every</div>
+      <div class="timer-options">
+        <button class="timer-option-btn" data-seconds="1">
+          <span class="time-label">1 sec</span>
+          <span class="sub-label">Instant</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="5">
+          <span class="time-label">5 sec</span>
+          <span class="sub-label">Quick peek</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="10">
+          <span class="time-label">10 sec</span>
+          <span class="sub-label">Brisk</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="15">
+          <span class="time-label">15 sec</span>
+          <span class="sub-label">Slideshow</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="30">
+          <span class="time-label">30 sec</span>
+          <span class="sub-label">Breathe</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="60">
+          <span class="time-label">1 min</span>
+          <span class="sub-label">Steady</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="300">
+          <span class="time-label">5 min</span>
+          <span class="sub-label">Focus pace</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="600">
+          <span class="time-label">10 min</span>
+          <span class="sub-label">Balanced</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="900">
+          <span class="time-label">15 min</span>
+          <span class="sub-label">Mindful</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="1800">
+          <span class="time-label">30 min</span>
+          <span class="sub-label">Relaxed</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="3600">
+          <span class="time-label">1 hour</span>
+          <span class="sub-label">Hourly</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="10800">
+          <span class="time-label">3 hours</span>
+          <span class="sub-label">Long session</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="21600">
+          <span class="time-label">6 hours</span>
+          <span class="sub-label">Work session</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="43200">
+          <span class="time-label">12 hours</span>
+          <span class="sub-label">Half day</span>
+        </button>
+        <button class="timer-option-btn" data-seconds="86400">
+          <span class="time-label">24 hours</span>
+          <span class="sub-label">Daily</span>
+        </button>
+        <button class="timer-option-btn timer-off-btn active" data-seconds="0">
+          <span class="time-label">Off</span>
+          <span class="sub-label">Manual only</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Controls Dock -->
+    <div class="container">
+      <!-- Ambient Audio Toggle -->
+      <button id="audio-btn" aria-label="Toggle ambient relaxation music" title="Toggle soothing sound">
+        <svg id="audio-icon-note" class="control-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M18.6216 3.21667c.2391.1897.3784.47817.3784.78334V15.6667c0 .0412-.0025.0818-.0073.1218.0048.0698.0073.1404.0073.2115 0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3c.3506 0 .6872.0602 1 .1707V9.2602l-8 1.8667V18l-.00001.0032C8.99824 19.6586 7.65577 21 6 21c-1.65685 0-3-1.3431-3-3s1.34315-3 3-3c.35064 0 .68722.0602 1 .1707V6.33334c0-.46474.32018-.86823.77277-.97384l9.99953-2.33321c.1486-.03477.3012-.03465.4467-.00201.1427.03202.2783.09532.3964.18752.0021.00162.0041.00324.0062.00487Z"></path>
+        </svg>
+        <svg id="audio-icon-muted" class="control-icon hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6.23 4.81 4.81 6.23 8.59 10H5v4h4l5 5V14.41l3.77 3.77 1.41-1.41L6.23 4.81zM16 10.82V5l-5 5v.18l5 5v-4.36z"></path>
+        </svg>
+      </button>
+
+      <!-- Next / Shuffle Affirmation -->
+      <button id="randomize-btn" aria-label="Next affirmation" title="Get next affirmation (Spacebar)">
+        <svg class="control-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"></path>
+        </svg>
+      </button>
+
+      <!-- Auto-Change Timer Button (5, 10, 15 min selector) -->
+      <button id="timer-toggle-btn" aria-label="Set auto-change affirmation interval" title="Auto-change timer (5, 10, 15 min)">
+        <svg class="control-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"></circle>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"></path>
+        </svg>
+        <span id="timer-badge" class="timer-badge hidden">5m</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

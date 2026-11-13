@@ -1,0 +1,22 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if using npm/npx)
+node_modules/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Build outputs
+dist/
+build/
