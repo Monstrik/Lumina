@@ -3,6 +3,14 @@
  * Faithful Stofinity Clone with 5/10/15 Minute Auto-Timer & Dual-Layer Crossfade
  */
 
+import {
+  timerBadgeLabel,
+  resetTimerCountdown,
+  calculateProgress,
+  generateTimerStatusText,
+  getNextRandomIndex
+} from './utils.js';
+
 // 1. Mobile Viewport Height Normalizer
 const setVh = () => {
   const vh = window.innerHeight * 0.01;
@@ -119,7 +127,7 @@ preloadImages();
 function showAffirmation(nextIndex) {
   currentIndex = nextIndex;
   const targetImageSrc = images[currentIndex];
-  
+
   const incomingLayer = currentLayer === 'A' ? bgLayerB : bgLayerA;
   const outgoingLayer = currentLayer === 'A' ? bgLayerA : bgLayerB;
 
@@ -136,10 +144,7 @@ function showAffirmation(nextIndex) {
 
 // Roll to random affirmation without immediate repeating
 function nextAffirmation(isAutoTriggered = false) {
-  let nextIndex;
-  do {
-    nextIndex = Math.floor(Math.random() * images.length);
-  } while (nextIndex === currentIndex && images.length > 1);
+  const nextIndex = getNextRandomIndex(currentIndex, images.length);
 
   showAffirmation(nextIndex);
 
@@ -150,7 +155,10 @@ function nextAffirmation(isAutoTriggered = false) {
 
   // Reset the timer countdown for a full cycle
   if (timerIntervalSeconds > 0) {
-    resetTimerCountdown();
+    const { total, remaining } = resetTimerCountdown(timerIntervalSeconds);
+    totalCountdownSeconds = total;
+    countdownSecondsRemaining = remaining;
+    updateTimerUI();
   }
 }
 
@@ -159,33 +167,6 @@ randomizeBtn.addEventListener('click', () => {
 });
 
 // 6. Affirmation Auto-Change Interval Timer (seconds-based)
-function formatTime(seconds) {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  if (h > 0) {
-    return `${h}h ${m.toString().padStart(2,'0')}m ${s.toString().padStart(2,'0')}s`;
-  }
-  if (m > 0) {
-    return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-  }
-  return `${s}s`;
-}
-
-function timerBadgeLabel(secs) {
-  if (secs < 60)   return `${secs}s`;
-  if (secs < 3600) return `${secs / 60}m`;
-  if (secs < 86400) return `${secs / 3600}h`;
-  return '24h';
-}
-
-function resetTimerCountdown() {
-  if (timerIntervalSeconds <= 0) return;
-  totalCountdownSeconds = timerIntervalSeconds;
-  countdownSecondsRemaining = totalCountdownSeconds;
-  updateTimerUI();
-}
-
 function updateTimerUI() {
   if (timerIntervalSeconds <= 0) {
     timerBadge.classList.add('hidden');
@@ -198,10 +179,10 @@ function updateTimerUI() {
   timerBadge.classList.remove('hidden');
   timerToggleBtn.classList.add('active');
 
-  timerStatusText.textContent = `Next affirmation in ${formatTime(countdownSecondsRemaining)}`;
+  timerStatusText.textContent = generateTimerStatusText(countdownSecondsRemaining);
   timerStatus.classList.remove('hidden');
 
-  const progressPercent = ((totalCountdownSeconds - countdownSecondsRemaining) / totalCountdownSeconds) * 100;
+  const progressPercent = calculateProgress(totalCountdownSeconds, countdownSecondsRemaining);
   timerProgressBar.style.width = `${progressPercent}%`;
 }
 
@@ -218,7 +199,9 @@ function startTimer(seconds) {
     return;
   }
 
-  resetTimerCountdown();
+  const { total, remaining } = resetTimerCountdown(timerIntervalSeconds);
+  totalCountdownSeconds = total;
+  countdownSecondsRemaining = remaining;
 
   timerTickInterval = setInterval(() => {
     countdownSecondsRemaining--;

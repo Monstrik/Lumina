@@ -4,19 +4,28 @@
   "description": "**Lumina** is a lightweight, offline-first web app for daily affirmation practice. It's a faithful recreation of the Stofinity Positive Affirmations experience — hand-illustrated cards, ambient sound, and a flexible auto-advance timer — packaged as a single folder you can run anywhere.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test app.spec.js",
+    "serve": "http-server . -p 8001 -c-1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Monstrik/Lumina.git"
   },
   "keywords": [],
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Monstrik/Lumina/issues"
   },
   "homepage": "https://github.com/Monstrik/Lumina#readme",
   "dependencies": {
     "playwright": "^1.65.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "http-server": "^14.1.1",
+    "jsdom": "^31.0.1",
+    "vitest": "^2.0.0"
   }
 }
