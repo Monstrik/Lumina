@@ -24,10 +24,10 @@ Most affirmation apps are cluttered with tracking, streaks, subscriptions, or ne
 | **59 Illustrated Cards** | Full Stofinity catalog — hand-drawn artwork with affirmations embedded in each image |
 | **Auto-Advance Timer** | 12 intervals from 1 second to 24 hours, plus "Off" for manual mode |
 | **Live Countdown** | Floating pill with progress bar — always visible, never intrusive |
-| **Gentle Chime** | Soft volume-dip notification when the card rotates (only when audio is on) |
+| **Gentle Chime** | Soft sine-wave tone (A5→E6) when card auto-advances — only plays when ambient audio is **off** |
 | **Seamless Crossfade** | Dual-layer background swap — no flashes, no blank frames |
-| **Ambient Soundscape** | Built-in F major 7th pad synth via Web Audio API — no external audio files needed |
-| **Keyboard Shortcuts** | `Space` / `→` next card · `T` timer menu · `M` mute audio |
+| **Ambient Soundscape** | Looped audio track (ambient.mp4) with HTML5 Audio — toggle on/off |
+| **Keyboard Shortcuts** | `Space` / `→` next card · `T` timer menu · `M` toggle audio |
 | **One-Command Launch** | `./start.sh` finds a free port, starts server, opens browser |
 
 ---
@@ -62,7 +62,7 @@ That's it. The script:
 |-----|--------|
 | `Space` or `→` | Next affirmation |
 | `T` | Open/close timer interval menu |
-| `M` | Toggle ambient audio on/off |
+| `M` | Toggle ambient audio |
 | `Esc` | Close timer menu (if open) |
 
 ---
@@ -86,7 +86,8 @@ That's it. The script:
 - **HTML5** — semantic, accessible markup
 - **CSS3** — custom properties, fluid typography, `prefers-reduced-motion` support
 - **Vanilla ES6+ JS** — no frameworks, ~300 lines
-- **Web Audio API** — programmatic ambient synthesis (zero audio assets)
+- **Web Audio API** — programmatic notification chime (sine oscillator)
+- **HTML5 Audio** — ambient track playback
 - **Python `http.server` / Node `serve`** — zero-config static hosting
 
 ---
@@ -113,8 +114,6 @@ The workflow (`.github/workflows/deploy-pages.yml`) runs on every push to `main`
 
 ## 📁 Project Structure
 
-## 📁 Project Structure
-
 ```
 positive-affirmations/
 ├── index.html          # App shell
@@ -129,7 +128,7 @@ positive-affirmations/
 │   ├── bat_*.jpg/png
 │   └── boo_*.jpg/png
 └── audio/
-    └── ambient.mp4     # Fallback audio (unused; synth preferred)
+    └── ambient.mp4     # Ambient audio track (looped via HTML5 Audio)
 ```
 
 ---
@@ -140,7 +139,7 @@ positive-affirmations/
 Drop `.png`/`.jpg` files into `images/` and add their filenames to the `images` array in `app.js:16`.
 
 ### Adjust Audio
-The ambient synth is defined in `app.js` — modify the oscillator frequencies, gain, or waveform type to change the mood.
+The notification chime is defined in `app.js:281` — modify the oscillator frequencies, gain, or waveform type to change the chime. The ambient track is `audio/ambient.mp4` — replace it with your own audio file to change the background sound.
 
 ### Change Default Timer
 Edit `timerIntervalSeconds` in `app.js:98` to set a different default interval on first load.
