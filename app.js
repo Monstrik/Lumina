@@ -255,6 +255,7 @@ document.addEventListener('click', (e) => {
 
 // 7. Ambient Music — Original audio track from Stofinity
 const ambientAudio = new Audio('audio/ambient.mp4');
+window.ambientAudio = ambientAudio; // expose for testing
 ambientAudio.loop = true;
 ambientAudio.volume = 1.0;
 let isAudioPlaying = false;
@@ -277,13 +278,28 @@ function stopAmbientSound() {
   audioIconMuted.classList.add('hidden');
 }
 
-// Subtle volume-dip chime on auto affirmation change
 function playNotificationChime() {
-  if (!isAudioPlaying) return;
-  // Dip volume briefly as a gentle audio cue
-  const originalVolume = ambientAudio.volume;
-  ambientAudio.volume = 0.2;
-  setTimeout(() => { ambientAudio.volume = originalVolume; }, 800);
+  if (isAudioPlaying) return; // Disable chime when music is playing
+
+  // Generate a soft chime using Web Audio API
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.3); // E6
+
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.5);
+  } catch (err) {
+    console.debug('Chime play blocked:', err);
+  }
 }
 
 audioBtn.addEventListener('click', () => {
